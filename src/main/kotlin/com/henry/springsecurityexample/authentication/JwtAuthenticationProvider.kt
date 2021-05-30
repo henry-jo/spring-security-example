@@ -1,4 +1,4 @@
-package com.henry.springsecurityexample.security
+package com.henry.springsecurityexample.authentication
 
 import mu.KLogging
 import org.springframework.security.authentication.AuthenticationProvider

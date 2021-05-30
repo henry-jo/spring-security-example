@@ -1,7 +1,7 @@
 package com.henry.springsecurityexample.config
 
-import com.henry.springsecurityexample.security.JwtAuthenticationFilter
-import com.henry.springsecurityexample.security.JwtAuthenticationProvider
+import com.henry.springsecurityexample.authentication.JwtAuthenticationFilter
+import com.henry.springsecurityexample.authentication.JwtAuthenticationProvider
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder

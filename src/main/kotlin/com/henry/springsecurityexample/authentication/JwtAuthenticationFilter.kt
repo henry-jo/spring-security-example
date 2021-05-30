@@ -1,5 +1,6 @@
-package com.henry.springsecurityexample.security
+package com.henry.springsecurityexample.authentication
 
+import com.henry.springsecurityexample.authorization.AuthorizationRole
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
@@ -16,7 +17,8 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
     ) {
         // TODO: Implement jwt encryption & decryption.
 
-        SecurityContextHolder.getContext().authentication = JwtAuthentication("account", "userName")
+        SecurityContextHolder.getContext().authentication =
+            JwtAuthentication("account", "userName", setOf(AuthorizationRole.MASTER))
 
         filterChain.doFilter(request, response)
     }
