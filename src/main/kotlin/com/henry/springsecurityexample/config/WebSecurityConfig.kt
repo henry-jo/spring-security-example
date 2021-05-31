@@ -2,6 +2,7 @@ package com.henry.springsecurityexample.config
 
 import com.henry.springsecurityexample.authentication.JwtAuthenticationFilter
 import com.henry.springsecurityexample.authentication.JwtAuthenticationProvider
+import com.henry.springsecurityexample.handler.CustomAccessDeniedHandler
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class WebSecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     private val jwtAuthenticationProvider: JwtAuthenticationProvider,
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -26,8 +28,12 @@ class WebSecurityConfig(
             .anyRequest().permitAll()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().formLogin().disable()
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
-            .exceptionHandling().authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter::class.java
+            )
+            .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
+            .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
